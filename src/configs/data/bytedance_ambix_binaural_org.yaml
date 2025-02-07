@@ -1,0 +1,33 @@
+data:
+  common:
+    sampling_rate: 48000
+    chunk_size: 24000
+    overlap: 0.9
+    root_path: "/mnt/home/idgebru/Data/BTPAB/"
+  training:
+    _target_: datasets.urbansounds_binaural_parser.ParseAmbixBinauralRecordings
+    sampling_rate: ${data.common.sampling_rate}
+    chunk_size: ${data.common.chunk_size}
+    overlap: ${data.common.overlap}
+    datasets_config:
+      - name: train_sample_1
+        root_path: ${data.common.root_path}
+        recording_ids: ${range:0,30,1}  #"${merge: ${range:0,11,1}, ${range:12,31,1}}"
+        start: 0.025
+        length: null
+  validation:
+    _target_: datasets.urbansounds_binaural_parser.ParseAmbixBinauralRecordings
+    sampling_rate: ${data.common.sampling_rate}
+    chunk_size: 24000
+    overlap: 0.5
+    datasets_config:
+      - name: val_sample1
+        root_path:  ${data.common.root_path}
+        recording_ids: ${range:0,30,1}
+        start: 48.0
+        length: -1
+      - name: val_sample2
+        root_path:  ${data.common.root_path}
+        recording_ids: ${range:31,48,1}
+        start: -20.0
+        length: -1

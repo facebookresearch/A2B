@@ -1,0 +1,36 @@
+ckpt_path : Null
+ref_audio:
+  - name: session01
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF/Session01/"
+    recording_ids: "${range:0,22,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session02
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF/Session02/"
+    recording_ids: "${range:0,24,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session03
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF/Session03/"
+    recording_ids: "${range:0,23,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session04
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF/Session04/"
+    recording_ids: "${merge: ${range:0,6,1}, ${range:8,27,1}}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session04
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF/Session05/"
+    recording_ids: "${range:0,24,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+output:
+  fld_path: "/mnt/home/idgebru/A2B_ICASSP2025/n2s_mk128/"
+  tag": "version_0"
+  subtag": "0"

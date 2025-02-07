@@ -1,0 +1,36 @@
+ckpt_path : Null
+ref_audio:
+  - name: session01
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/Hearsay_Ambisonic_Binaural/Session01/"
+    recording_ids: "${merge: ${range:0,11,1}, ${range:13,25,1}}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session02
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/Hearsay_Ambisonic_Binaural/Session02/"
+    recording_ids: "${range:0,23,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session03
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/Hearsay_Ambisonic_Binaural/Session03/"
+    recording_ids: "${range:0,20,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: session04
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/Hearsay_Ambisonic_Binaural/Session04/"
+    recording_ids: "${range:0,24,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+  - name: nftest
+    wav_path: "/mnt/home/idgebru/Data/A2B_Datasets/Hearsay_Ambisonic_Binaural/Session_Nearfield_Participants/"
+    recording_ids: "${range:0,24,1}"
+    start: -20.0
+    length: 15.0
+    scale: 1.0
+output:
+  fld_path: "/mnt/home/idgebru/A2B_ICASSP2025/hearsay_mk128/"
+  tag": "version_0"
+  subtag": "0"

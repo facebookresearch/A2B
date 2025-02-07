@@ -1,0 +1,12 @@
+ckpt_path : Null
+ref_audio:
+  - name: test02
+    wav_path: "/mnt/home/idgebru/Data/BTPAB/"
+    recording_ids: "${range:31,48,1}"
+    start: 0.0
+    length: null
+    scale: 1.0
+output:
+  fld_path: "/mnt/home/idgebru/A2B_ICASSP2025/Bytedance_Paper/"
+  tag": "version_0"
+  subtag": "0"

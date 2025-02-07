@@ -1,0 +1,83 @@
+config_name: models/a2b_model_n2s_mk128_v1
+config_dir: configs
+ckpt_path: null
+model_checkpoint: null
+finetuning: false
+progress_bar_refresh_rate: 10
+training:
+  accelerator: gpu
+  verbose: true
+  lr_scheduler: null
+  strategy: ddp
+  devices: -1
+  artifacts_dir: /mnt/home/idgebru/a2b_exp_dumps/model_training/n2s_mk128_kemar/
+  epochs: 2000
+seed: 1024
+find_unused_parameters: false
+callbacks: null
+trainer:
+  num_sanity_val_steps: 0
+  deterministic: false
+  benchmark: false
+  enable_model_summary: true
+  precision: 32
+  limit_train_batches: 1.0
+  log_every_n_steps: 10
+  detect_anomaly: false
+data:
+  _target_: datasets.dataloader.DataModule
+  datasets_conf:
+    _target_: datasets.dataset_reader.AmbixDataset
+    root_dir_training: /mnt/home/idgebru/exported_a2b_datasets_icassp/n2s_mk128_binaural/training/
+    root_dir_validation: /mnt/home/idgebru/exported_a2b_datasets_icassp/n2s_mk128_binaural/validation/
+    in_out_scale:
+    - 4.0
+    - 6.0
+    mic_offset:
+    - 0
+    - 0
+  train_dataloader_conf:
+    batch_size: 24
+    num_workers: 4
+    shuffle: true
+    pin_memory: false
+  val_dataloader_conf:
+    batch_size: 24
+    num_workers: 4
+    shuffle: false
+    pin_memory: false
+model:
+  _target_: nnModules.plmodules.a2b_pl_module.A2B_LightningModule
+  a2b_model:
+    _target_: nnModules.models.a2b_model_HO_v2.A2B_Render
+    ref_input_channels: 128
+    target_out_channels: 2
+    intermediate: false
+    encoder_params:
+      ch_divider: 4
+      n_groups: 2
+      hidden_channels: 64
+      out_channels: 64
+      conv_len: 1
+      drop_p: 0.2
+      bias: false
+    wavenet_params:
+      n_layers: 32
+      dilation_cycle_length: 8
+      conv_len: 3
+      skip_channels: 64
+      in_channels: 64
+      out_channels: 65
+      is_casual: false
+      drop_p: 0.0
+      scale_parameter: false
+      bias: false
+  metrics:
+    _target_: nnModules.metrics.asm_metrics_ild_ambix_lsd_ms_hr2.AmbientSoundsMetrics
+    diff: false
+    intermediate: ${model.a2b_model.intermediate}
+  optimization:
+    optimizer: adam
+    learning_rate: 0.0002
+    weight_decay: 1.0e-05
+ckpt_every_n_train_steps: 500

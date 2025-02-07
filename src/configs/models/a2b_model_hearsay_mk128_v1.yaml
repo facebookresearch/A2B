@@ -1,0 +1,71 @@
+data:
+  _target_: datasets.dataloader.DataModule
+  datasets_conf:
+    _target_: datasets.dataset_reader.AmbixDataset
+    root_dir_training: "/mnt/home/idgebru/exported_a2b_datasets_icassp/hearsay_mk128_binaural/training/"
+    root_dir_validation: "/mnt/home/idgebru/exported_a2b_datasets_icassp/hearsay_mk128_binaural/validation/"
+    in_out_scale: [4.0, 6.0]
+    mic_offset: [0, 0]
+  train_dataloader_conf:
+      batch_size: 24
+      num_workers: 4 # Do NOT set a very large number if running with the "ddp" accelerator.
+      shuffle: True
+      pin_memory: False
+  val_dataloader_conf:
+    batch_size: 24
+    num_workers: 4
+    shuffle: False
+    pin_memory: False
+training:
+  verbose: True
+  accelerator: "gpu" # cpu or gpu
+  strategy: "ddp" # dp, ddp, auto
+  devices: -1
+  artifacts_dir: "/mnt/home/idgebru/a2b_exp_dumps/model_training/hearsay_mk128_kemar/"
+  epochs: 2000
+# PL.Trainer specific parameters
+trainer:
+  precision: 32 # try 16bits
+  benchmark: False # If true enables cudnn.benchmark.
+  limit_train_batches: 1.0
+  log_every_n_steps: 10
+  detect_anomaly: False
+# model parameters
+model:
+  _target_: nnModules.plmodules.a2b_pl_module.A2B_LightningModule
+  a2b_model:
+    _target_: nnModules.models.a2b_model_HO_v2.A2B_Render
+    ref_input_channels: 128
+    target_out_channels: 2
+    intermediate: False
+    encoder_params:
+      ch_divider: 4
+      n_groups: 2
+      hidden_channels: 64
+      out_channels: 64
+      conv_len: 1
+      drop_p: 0.2
+      bias: False
+    wavenet_params:
+      n_layers : 32
+      dilation_cycle_length: 8
+      conv_len: 3
+      skip_channels: 64
+      in_channels: 64
+      out_channels: 65
+      is_casual: False
+      drop_p: 0.0
+      scale_parameter: False
+      bias: False
+  # loss metrics
+  metrics:
+    _target_: nnModules.metrics.asm_metrics_ild_ambix_lsd_ms_hr2.AmbientSoundsMetrics
+    diff: False
+    intermediate: ${model.a2b_model.intermediate}
+  optimization:
+    optimizer: adam
+    learning_rate: 0.0002
+    weight_decay: 1e-5
+ckpt_every_n_train_steps: 500
+find_unused_parameters: False
+progress_bar_refresh_rate: 10

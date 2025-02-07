@@ -1,0 +1,69 @@
+
+data:
+  common:
+    sampling_rate: 48000
+    chunk_size: 24000
+    overlap: 0.9
+    root_path: "/mnt/home/idgebru/Data/A2B_Datasets/N2S_Ambsonic_Binaural_NF"
+  training:
+      _target_: datasets.dataset_parser.ParseAmbixBinauralRecordings
+      sampling_rate: ${data.common.sampling_rate}
+      chunk_size: ${data.common.chunk_size}
+      overlap: ${data.common.overlap}
+      datasets_config:
+        - name: train_sample_1
+          root_path: ${data.common.root_path}/Session01/
+          recording_ids: "${range:0,22,1}"
+          start: 0.0
+          length: -40.0
+        - name: train_sample_2
+          root_path: ${data.common.root_path}/Session02/
+          recording_ids: "${range:0,24,1}"
+          start: 0.0
+          length: -40.0
+        - name: train_sample_3
+          root_path: ${data.common.root_path}/Session03/
+          recording_ids: "${range:0,23,1}"
+          start: 0.0
+          length: -40.0
+        - name: train_sample_4
+          root_path: ${data.common.root_path}/Session04/
+          recording_ids: "${merge: ${range:0,6,1}, ${range:8,27,1}}"
+          start: 0.0
+          length: -40.0
+        - name: train_sample_5
+          root_path: ${data.common.root_path}/Session05/
+          recording_ids: "${range:0,24,1}"
+          start: 0.0
+          length: -40.0
+  validation:
+    _target_: datasets.dataset_parser.ParseAmbixBinauralRecordings
+    sampling_rate: ${data.common.sampling_rate}
+    chunk_size: ${data.common.chunk_size}
+    overlap: 0.6
+    datasets_config:
+      - name: val_sample1
+        root_path: ${data.common.root_path}/Session01/
+        recording_ids: "${range:0,22,1}"
+        start: -30.0
+        length: null
+      - name: val_sample2
+        root_path: ${data.common.root_path}/Session02/
+        recording_ids: "${range:0,24,1}"
+        start: -30.0
+        length: null
+      - name: val_sample3
+        root_path: ${data.common.root_path}/Session03/
+        recording_ids: "${range:0,23,1}"
+        start: -30.0
+        length: null
+      - name: val_sample4
+        root_path: ${data.common.root_path}/Session04/
+        recording_ids: "${merge: ${range:0,6,1}, ${range:8,27,1}}"
+        start: -30.0
+        length: null
+      - name: val_sample5
+        root_path: ${data.common.root_path}/Session05/
+        recording_ids: "${range:0,24,1}"
+        start: -30.0
+        length: null
