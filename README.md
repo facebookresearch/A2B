@@ -9,9 +9,9 @@ Here you'll find the implementation code, pre-trained models, and links to the A
 We are releasing over X hours of paired ambisonic-binaural recordings collected with a 10th order ambisonic microphone array. We've provided the microphone geometric configuration, which is required for DSP methods such as MagLS that we used as a baseline in this paper.
 
 # Compose a dataset for model training
-This allows you to combine different recordingss to create a dataset that you can use for training and validatation. Example configuration can be found in "configs/data/debug.yaml".
+This allows you to combine different recordings to create a dataset that you can use for training and validation. Example configuration can be found in "configs/data/debug.yaml".
 
-Here is an example the uses the <a href="src/config/data/debug.yaml">debug.yaml</a> configuration. It writes a ready-to use dataset to a directory given by the out_dir cli parameter. This step write json configuration files that will be read by a pytorch dataset loader.
+Here is an example that uses the <a href="src/config/data/debug.yaml">debug.yaml</a> configuration. It writes a ready-to-use dataset to a directory given by the out_dir cli parameter. This step writes json configuration files that will be read by a pytorch dataset loader.
 
 ``` SHELL
 $ python ./tools/prepare_dataset.py config_name="n2s_mk128_binaural" out_dir="exported_speakeasy_datasets/debug/"
