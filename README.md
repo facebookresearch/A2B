@@ -31,7 +31,17 @@ $ sh src/preprocessing/bytedance/download.sh
 ```
 
 # Dataset Loading
-TBA
+The [A2B Dataset](https://fb-baas-f32eacb9-8abb-11eb-b2b8-4857dd089e15.s3.amazonaws.com/A2B/index.html) is hosted on AWS S3.
+We recommend using the AWS command line interface (see [AWS CLI installation instructions](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)).
+
+To download the dataset run:
+```
+aws s3 cp --recursive --no-sign-request s3://fb-baas-f32eacb9-8abb-11eb-b2b8-4857dd089e15/A2B/ A2B/
+```
+or use `sync` to avoid transferring existing files:
+```
+aws s3 sync --no-sign-request s3://fb-baas-f32eacb9-8abb-11eb-b2b8-4857dd089e15/A2B/ A2B/
+```
 
 # Model Training
 Please change the file paths accordingly or override from CLI
